@@ -14,11 +14,12 @@ public:
              int reheatInterval = 7,
              double reheatRate = 0.5,
              double initialAcceptanceRate = 0.4,
-             double learningRate= 0.9);
+             double learningRate= 0.9,
+             int restartCnt = 0);
      bool cont();
      bool shouldTake(int cost_change);
      void recordNewBest(unsigned best);
-     bool shouldRestoreBest();
+     bool shouldRestartWithBest();
 
     int tempDecreaseInterval;
     double reheatRate;
@@ -29,9 +30,11 @@ private:
     int tempIncreaseWithoutImprovement = 0;
     int cnt=0;
     int reheatcnt=0;
+    int restartsLeft;
     double temp;
+    double startTemp;
     double lastReheatTemp;
-    bool shouldRestore = false;
+    bool shouldRestart = false;
 
 };
 

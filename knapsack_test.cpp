@@ -109,7 +109,7 @@ int main() {
 
 
     GoodyTwoOptNeighborhoodSearcher ns;
-    DecisionMaker dm(-373868,60 * 100, 6, 0.5, 0.3, 0.9 );
+    DecisionMaker dm(-373868,60 * 100, 6, 0.5, 0.3, 0.9, 2 );
 
 
     ns.setMaxweight(maxWeight);

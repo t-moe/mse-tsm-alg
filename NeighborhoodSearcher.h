@@ -46,8 +46,10 @@ public:
             } else {
                 ignoreChange();
             }
-            if(decisionMaker.shouldRestoreBest()) {
+            if(decisionMaker.shouldRestartWithBest()) {
                 restoreBestSolution();
+                costsum = bestcost;
+                //This will invalidate avgImprovement!
             }
         }
         std::cout << "Cost improved by " << bestcost << std::endl;

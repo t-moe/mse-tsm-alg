@@ -8,7 +8,7 @@
 
 bool DecisionMaker::cont() {
     //return cnt++ < 10000;
-    shouldRestore = false;
+    shouldRestart = false;
 
     if(cnt % tempDecreaseInterval == 0) {
         temp = learningRate * temp;
@@ -21,7 +21,6 @@ bool DecisionMaker::cont() {
             temp = lastReheatTemp*reheatRate;
             lastReheatTemp= temp;
             reheatcnt++;
-            //shouldRestore = true; //this is restart rather than reheat....
             std::cout << "Reheat temp to " << temp << " after it " << cnt << std::endl;
         }
     }
@@ -29,7 +28,21 @@ bool DecisionMaker::cont() {
 
     //return cnt++ < 1000;
     //return tempIncreaseWithoutImprovement < 10;
-    return temp > 1;
+    //return temp > 1;
+    if(temp > 1) {
+        return true;
+    } else if (restartsLeft>0) {
+        restartsLeft--;
+        std::cout << "Restarting!" << std::endl;
+        temp = startTemp;
+        lastReheatTemp = startTemp;
+        tempIncreaseWithoutImprovement = 0;
+        reheatcnt = 0;
+        shouldRestart = true;
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool DecisionMaker::shouldTake(int cost_change) {
@@ -46,14 +59,16 @@ bool DecisionMaker::shouldTake(int cost_change) {
 }
 
 DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  int reheatInterval,
-                             double reheatRate , double initialAcceptanceRate, double learningRate) {
-    temp =  avgImprovement/log(initialAcceptanceRate);
+                             double reheatRate , double initialAcceptanceRate, double learningRate, int restartCnt ) {
+    startTemp =  avgImprovement/log(initialAcceptanceRate);
+    temp = startTemp;
     lastReheatTemp = temp;
     std::cout << "initial temp " << temp << std::endl;
     this->learningRate = learningRate;
     this->reheatRate = reheatRate;
     this->reheatInterval = reheatInterval;
     this->tempDecreaseInterval = tempDecreaseInterval;
+    this->restartsLeft = restartCnt;
 
 }
 
@@ -62,6 +77,6 @@ void DecisionMaker::recordNewBest(unsigned best) {
     tempIncreaseWithoutImprovement = 0;
 }
 
-bool DecisionMaker::shouldRestoreBest() {
-    return shouldRestore;
+bool DecisionMaker::shouldRestartWithBest() {
+    return shouldRestart;
 }
