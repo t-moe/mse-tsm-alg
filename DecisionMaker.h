@@ -9,16 +9,28 @@
 class DecisionMaker {
 
 public:
-     DecisionMaker(double avgImprovement, double initialAcceptanceRate = 0.3, double learningRate= 0.95);
+     DecisionMaker(double avgImprovement,
+             int tempDecreaseInterval = 60 * 100,
+             int reheatInterval = 7,
+             double reheatRate = 0.5,
+             double initialAcceptanceRate = 0.4,
+             double learningRate= 0.9);
      bool cont();
      bool shouldTake(int cost_change);
      void recordNewBest(unsigned best);
 
-     int tempIncreaseWithoutImprovement = 0;
+    int tempDecreaseInterval;
+    double reheatRate;
+    int reheatInterval;
+    double learningRate;
+
+private:
+    int tempIncreaseWithoutImprovement = 0;
     int cnt=0;
     int reheatcnt=0;
     double temp;
-    double learningRate;
+    double lastReheatTemp;
+
 };
 
 

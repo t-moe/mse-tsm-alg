@@ -80,7 +80,7 @@ std::vector<Goody> greedy(std::vector<Goody>& goodies, unsigned maxWeight, std::
 }
 
 
-std::vector<Goody>  improveSolution(std::vector<Goody> solution, unsigned int maxWeight,  NeighborhoodSearcher& neighborhoodSearcher, DecisionMaker& decisionMaker) {
+std::vector<Goody>  improveSolution(std::vector<Goody> solution, unsigned int maxWeight, GoodyTwoOptNeighborhoodSearcher& neighborhoodSearcher, DecisionMaker& decisionMaker) {
     neighborhoodSearcher.setMaxweight(maxWeight);
     neighborhoodSearcher.setGoodies(solution);
 
@@ -131,7 +131,7 @@ int main() {
 
     //Weight 6289089/6404180 Value 13346220
     auto sol = greedy(remainingGoods, maxWeight, pickBestRate);
-
+    //std::vector<Goody> sol = remainingGoods;
     unsigned weight = getWeight(sol, maxWeight);
     unsigned value = getValue(sol, maxWeight);
     std::cout << "Weight " << weight << "/" << maxWeight << " Value " << value << std::endl;
@@ -142,8 +142,9 @@ int main() {
     }*/
 
 
-    NeighborhoodSearcher ns;
-    DecisionMaker dm(-715055);
+    GoodyTwoOptNeighborhoodSearcher ns;
+    DecisionMaker dm(-715055,60 * 100, 7, 0.5, 0.4, 0.9 );
+
 
     //sol.insert(sol.end(), remainingGoods.begin(), remainingGoods.end());
     auto improvedSolution= improveSolution(sol, maxWeight, ns, dm );

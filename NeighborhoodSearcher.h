@@ -9,7 +9,7 @@
 #include <vector>
 #include "Goody.h"
 
-class NeighborhoodSearcher {
+class GoodyTwoOptNeighborhoodSearcher {
     public:
     void setGoodies(std::vector<Goody>& goodyRef);
     void setMaxweight(unsigned int m);

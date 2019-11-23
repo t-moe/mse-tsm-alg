@@ -6,7 +6,7 @@
 #include <iostream>
 #include "NeighborhoodSearcher.h"
 
-void NeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
+void GoodyTwoOptNeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
     this->goodies = &goodyRef;
     totalWeight = 0;
     totalValue = 0;
@@ -26,7 +26,7 @@ void NeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
 
 
 
-bool NeighborhoodSearcher::cont() {
+bool GoodyTwoOptNeighborhoodSearcher::cont() {
 
     do {
         //pick an element thats from the whole list
@@ -73,11 +73,11 @@ bool NeighborhoodSearcher::cont() {
     return true;
 }
 
-double NeighborhoodSearcher::getCostChange() {
+double GoodyTwoOptNeighborhoodSearcher::getCostChange() {
     return valueChange;
 }
 
-bool NeighborhoodSearcher::acceptChange() {
+bool GoodyTwoOptNeighborhoodSearcher::acceptChange() {
     if(valueChange == 0 && weightChange==0) {
         return false;
     }
@@ -91,18 +91,18 @@ bool NeighborhoodSearcher::acceptChange() {
 
 }
 
-void NeighborhoodSearcher::ignoreChange() {
+void GoodyTwoOptNeighborhoodSearcher::ignoreChange() {
     //std::cout << "ignored swaping with value change " << valueChange <<  std::endl;
 
     weightChange = 0;
     valueChange = 0;
 }
 
-void NeighborhoodSearcher::setMaxweight(unsigned int m) {
+void GoodyTwoOptNeighborhoodSearcher::setMaxweight(unsigned int m) {
     maxWeight = m;
 }
 
-double NeighborhoodSearcher::avgImprovement() {
+double GoodyTwoOptNeighborhoodSearcher::avgImprovement() {
     return (double) costsum / improvements;
 }
 
