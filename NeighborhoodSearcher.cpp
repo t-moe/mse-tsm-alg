@@ -38,6 +38,12 @@ bool NeighborhoodSearcher::cont() {
         weightChange = it2->weight - it1->weight;
     } while(totalWeight + weightChange > maxWeight);
 
+
+    //if(valueChange > 0) {
+        improvements++;
+        costsum += valueChange;
+   // }
+
     return true;
 }
 
@@ -49,16 +55,19 @@ bool NeighborhoodSearcher::acceptChange() {
     if(valueChange == 0 && weightChange==0) {
         return false;
     }
-    std::cout << "Accepted swaping el " << std::distance(goodies->begin(), it1) << " with " <<  std::distance(goodies->begin(), it2) << " value change: " << valueChange <<  std::endl;
+    //std::cout << "Accepted swaping el " << std::distance(goodies->begin(), it1) << " with " <<  std::distance(goodies->begin(), it2) << " value change: " << valueChange <<  std::endl;
     std::iter_swap(it1, it2);
     totalWeight += weightChange;
     totalValue += valueChange;
+
     weightChange = 0;
     valueChange = 0;
 
 }
 
 void NeighborhoodSearcher::ignoreChange() {
+    //std::cout << "ignored swaping with value change " << valueChange <<  std::endl;
+
     weightChange = 0;
     valueChange = 0;
 }
@@ -67,4 +76,7 @@ void NeighborhoodSearcher::setMaxweight(unsigned int m) {
     maxWeight = m;
 }
 
+double NeighborhoodSearcher::avgImprovement() {
+    return (double) costsum / improvements;
+}
 

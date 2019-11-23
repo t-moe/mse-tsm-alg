@@ -93,6 +93,7 @@ std::vector<Goody>  improveSolution(std::vector<Goody> solution, unsigned int ma
             neighborhoodSearcher.acceptChange();
             cost += costChange;
             if(cost > bestcost) {
+                decisionMaker.recordNewBest();
                 bestcost = cost;
                 bestsol = solution;
             }
@@ -142,10 +143,16 @@ int main() {
 
 
     NeighborhoodSearcher ns;
-    DecisionMaker dm;
+    DecisionMaker dm(-715055);
 
     //sol.insert(sol.end(), remainingGoods.begin(), remainingGoods.end());
     auto improvedSolution= improveSolution(sol, maxWeight, ns, dm );
+    //std::cout << "avg improvement " << ns.avgImprovement() << std::endl;
+    //avg improvement 79829 (positiv only)
+    //avg improvement -715055 (positive + negative)
+
+    //Cost improved 159658
+    //Weight 6386705/6404180 Value 13505878
 
     weight = getWeight(improvedSolution, maxWeight);
     value = getValue(improvedSolution, maxWeight);

@@ -30,6 +30,11 @@ class NeighborhoodSearcher {
     std::vector<Goody>::iterator it2;
     int valueChange = 0;
     int weightChange = 0;
+
+    unsigned int improvements = 0;
+    long costsum =0;
+
+    double avgImprovement();
 };
 
 
