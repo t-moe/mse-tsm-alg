@@ -20,6 +20,7 @@
 #include "tsp_nearest_neighbor.h"
 #include "tsp_pilot.h"
 #include "tsp_local_greedy.h"
+#include "tsp_local_improv.h"
 
 /* For sorting a table of double by non-decreasing value */
 int larger(const void *a, const void *b)
@@ -29,7 +30,7 @@ int larger(const void *a, const void *b)
   else return 0;
 }
 
-int notmain(void)
+int main(void)
 { unsigned n;                                                 /* Problem size */
   unsigned* solution;   /* Permutation: order in which the cities are visited */
   double* x;                                     /* coordinates of the cities */
@@ -49,8 +50,8 @@ int notmain(void)
   printf("Data file name : \n");
   //dummy_int = scanf("%s",filename);
   // data_file = fopen(filename,"r");
-  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
-  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
+  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
+  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
   //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/pr2392.tsp", "r");
 
   /* Reading the data file. Hoping in right format!! ALMOST NO CHECKS!!       */
@@ -97,15 +98,38 @@ int notmain(void)
     }
   epsilon *= dmax;
 
-  cpu = clock();
-  //length = tsp_greedy_insertion(n, d, solution);
+
+
   //length = tsp_random_samp(n, d, solution);
     //length = tsp_nearest_neighbor(n, d, solution);
     //length = tsp_pilot(n, d, solution);
-    length = tsp_local_greedy(n, d, solution);
+   // length = tsp_local_greedy(n, d, solution);
 
+    cpu = clock();
+    length = tsp_greedy_insertion(n, d, solution);
     printf("%d\t%e\t%e (number of cities, time, length) of greedy insertion. \n", n, seconds(cpu), length);
-  draw(n, x, y, solution, "greedy.ps");
+    draw(n, x, y, solution, "greedy.ps");
+
+    cpu = clock();
+    length = tsp_nearest_neighbor(n, d, solution);
+    printf("%d\t%e\t%e (number of cities, time, length) of nearest neighbor. \n", n, seconds(cpu), length);
+    draw(n, x, y, solution, "nneighbor.ps");
+
+    cpu = clock();
+    length = tsp_local_greedy(n, d, solution);
+    printf("%d\t%e\t%e (number of cities, time, length) of local greedy insertion. \n", n, seconds(cpu), length);
+    draw(n, x, y, solution, "localgreedy.ps");
+
+    /*cpu = clock();
+    length = tsp_pilot(n, d, solution);
+    printf("%d\t%e\t%e (number of cities, time, length) of pilot. \n", n, seconds(cpu), length);
+    draw(n, x, y, solution, "pilot.ps");*/
+
+    cpu = clock();
+    length = tsp_local_improv(n, d, solution);
+    printf("%d\t%e\t%e (number of cities, time, length) of one local improvments. \n", n, seconds(cpu), length);
+    draw(n, x, y, solution, "localimprov.ps");
+
 
 /*
   printf("2 opt first\n");

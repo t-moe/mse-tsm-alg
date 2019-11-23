@@ -87,7 +87,7 @@ double tsp_pilot(unsigned n,                   /* Number of cities */
             bestcost = cost;
             bestsol  = tmpsol;
         }
-        printf("cost: %f\n", cost);
+        //printf("cost: %f\n", cost);
 
     }
 

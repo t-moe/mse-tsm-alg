@@ -80,7 +80,7 @@ std::vector<Goody> greedy(std::vector<Goody>& goodies, std::function<std::vector
 
 
 
-int main() {
+int knap_main() {
     srand(time(NULL));
 
     auto pickMostValueable = [](const std::vector<Goody>& goodies) {
