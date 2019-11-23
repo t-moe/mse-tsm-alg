@@ -93,7 +93,7 @@ std::vector<Goody>  improveSolution(std::vector<Goody> solution, unsigned int ma
             neighborhoodSearcher.acceptChange();
             cost += costChange;
             if(cost > bestcost) {
-                decisionMaker.recordNewBest();
+                decisionMaker.recordNewBest(cost);
                 bestcost = cost;
                 bestsol = solution;
             }

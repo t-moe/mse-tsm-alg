@@ -11,6 +11,13 @@ bool DecisionMaker::cont() {
         temp = learningRate * temp;
         std::cout << "Decrease temp to " << temp << " after it " << cnt << std::endl;
         tempIncreaseWithoutImprovement++;
+
+        if(tempIncreaseWithoutImprovement > 20 && reheatcnt <10) {
+            tempIncreaseWithoutImprovement=0;
+            temp = temp*2;
+            reheatcnt++;
+            std::cout << "Reheat temp to " << temp << " after it " << cnt << std::endl;
+        }
     }
     cnt++;
     //return cnt++ < 100000;
@@ -37,7 +44,7 @@ DecisionMaker::DecisionMaker(double avgImprovement, double initialAcceptanceRate
 
 }
 
-void DecisionMaker::recordNewBest() {
-    std::cout << "New global maxima at it " << cnt << std::endl;
+void DecisionMaker::recordNewBest(unsigned best) {
+    std::cout << "New global maxima " << best << " at it " << cnt << std::endl;
     tempIncreaseWithoutImprovement = 0;
 }
