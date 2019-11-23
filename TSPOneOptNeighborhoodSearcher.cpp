@@ -5,32 +5,30 @@
 #include "TSPOneOptNeighborhoodSearcher.h"
 #include <cstdlib>
 #include <iostream>
-
+#include <algorithm>
 
 
 bool TSPOneOptNeighborhoodSearcher::cont() {
 
     do {
-        it1 = route.begin();
-        std::advance(it1, rand() % route.size());
+        auto s1 = route.begin();
+        std::advance(s1, rand() % route.size());
 
-        it2 = std::next(it1, 1);
-        if(it2== route.end()) {
-            it2 = route.begin();
+        auto s2 = route.begin();
+        std::advance(s2, rand() % route.size());
+
+        if(std::distance(s1, s2) <2 ) continue;
+        it1= std::next(s1, 1);
+        if(it1 ==route.end()) {
+            continue;
+        }
+        it2 = std::next(s2, 1);
+        if(it2 ==route.end()) {
+            continue;
         }
 
-        auto prev = std::prev(route.end(),1);
-        if(it1!=route.begin()) {
-            prev = std::prev(it1,1);
-        }
 
-        auto next = std::next(it2, 1);
-        if(next ==route.end()) {
-            next = route.begin();
-        }
-
-
-        lengthChange =  -d[*prev][*it1]  /*-d[*it1][*it2] */ - d[*it2][*next]    + d[*prev][*it2]  + /* d[*it2][*it1]*/ + d[*it1][*next] ;
+        lengthChange =  -d[*s1][*it1] - d[*s2][*it2]    + d[*s1][*s2]  + d[*it1][*it2] ;
 
     } while(lengthChange == 0);
 
@@ -45,7 +43,7 @@ bool TSPOneOptNeighborhoodSearcher::acceptChange() {
 
 
     //std::cout << "Accepted swaping city at positions " << std::distance(route.begin(), it1) << " with " <<  std::distance(route.begin(), it2) << " length change: " << lengthChange <<  std::endl;
-    std::iter_swap(it1, it2);
+    std::reverse(it1, it2);
 
     lengthChange = 0;
 

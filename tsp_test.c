@@ -50,8 +50,8 @@ int main(void)
   printf("Data file name : \n");
   //dummy_int = scanf("%s",filename);
   // data_file = fopen(filename,"r");
-  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
-  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
+  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
+  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
   //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/pr2392.tsp", "r");
 
   /* Reading the data file. Hoping in right format!! ALMOST NO CHECKS!!       */
