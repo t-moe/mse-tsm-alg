@@ -20,8 +20,6 @@ class GoodyTwoOptNeighborhoodSearcher : public NeighborhoodSearcher {
     void ignoreChange() override;
 
 
-    bool isBetterCost(double c1, double c2) override;
-
     std::vector<Goody>* goodies;
     unsigned int totalWeight;
     unsigned int totalValue;

@@ -94,7 +94,7 @@ void GoodyTwoOptNeighborhoodSearcher::setMaxweight(unsigned int m) {
 
 
 double GoodyTwoOptNeighborhoodSearcher::getCostChange() {
-    return valueChange;
+    return -valueChange;
 }
 
 std::vector<Goody> GoodyTwoOptNeighborhoodSearcher::getBestSolution() {
@@ -106,9 +106,6 @@ bool GoodyTwoOptNeighborhoodSearcher::saveAsBestSolution() {
     return true;
 }
 
-bool GoodyTwoOptNeighborhoodSearcher::isBetterCost(double c1, double c2) {
-    return c1 > c2;
-}
 
 bool GoodyTwoOptNeighborhoodSearcher::restoreBestSolution() {
     *goodies = bestsol;

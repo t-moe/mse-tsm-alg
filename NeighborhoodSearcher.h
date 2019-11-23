@@ -11,6 +11,7 @@
 #include <vector>
 #include "DecisionMaker.h"
 #include "Goody.h"
+#define infinite 2.2e222
 
 class NeighborhoodSearcher {
 public:
@@ -23,11 +24,10 @@ public:
 
     virtual bool restoreBestSolution() = 0;
     virtual bool saveAsBestSolution() = 0;
-    virtual bool isBetterCost(double c1, double c2) = 0;
 
 
     void improveSolution( DecisionMaker& decisionMaker) {
-        double bestcost = 0;
+        double bestcost = infinite;
         improvements = 0;
         costsum = 0;
         while(cont() && decisionMaker.cont()) {
@@ -38,7 +38,7 @@ public:
 
                 acceptChange();
 
-                if(isBetterCost(costsum,bestcost)) {
+                if(costsum <bestcost) {
                     decisionMaker.recordNewBest(costsum);
                     saveAsBestSolution();
                     bestcost = costsum;

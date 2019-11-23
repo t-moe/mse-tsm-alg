@@ -47,7 +47,7 @@ bool DecisionMaker::cont() {
 
 bool DecisionMaker::shouldTake(int cost_change) {
 
-    double p = exp((double)cost_change/temp);
+    double p = exp(-(double)cost_change/temp);
     double r = (double)rand() / RAND_MAX;
 
     //std::cout << "temp " << temp << " cost " << cost_change << " prob " << p << std::endl;
@@ -60,7 +60,7 @@ bool DecisionMaker::shouldTake(int cost_change) {
 
 DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  int reheatInterval,
                              double reheatRate , double initialAcceptanceRate, double learningRate, int restartCnt ) {
-    startTemp =  avgImprovement/log(initialAcceptanceRate);
+    startTemp =  -avgImprovement/log(initialAcceptanceRate);
     temp = startTemp;
     lastReheatTemp = temp;
     std::cout << "initial temp " << temp << std::endl;
@@ -72,7 +72,7 @@ DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  i
 
 }
 
-void DecisionMaker::recordNewBest(unsigned best) {
+void DecisionMaker::recordNewBest(double best) {
     std::cout << "New global best " << best << " at it " << cnt <<  " temp " << temp << std::endl;
     tempIncreaseWithoutImprovement = 0;
 }

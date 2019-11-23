@@ -18,7 +18,7 @@ public:
              int restartCnt = 0);
      bool cont();
      bool shouldTake(int cost_change);
-     void recordNewBest(unsigned best);
+     void recordNewBest(double best);
      bool shouldRestartWithBest();
 
     int tempDecreaseInterval;
