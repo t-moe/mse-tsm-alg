@@ -7,7 +7,7 @@
 #include <iostream>
 
 bool DecisionMaker::cont() {
-    //return cnt++ < 10000;
+    //return cnt++ < 100000;
     shouldRestart = false;
 
     if(cnt % tempDecreaseInterval == 0) {

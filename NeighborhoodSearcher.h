@@ -60,7 +60,7 @@ public:
     }
 
     unsigned int improvements = 0;
-    long costsum =0;
+    double costsum =0;
 
 
 };
