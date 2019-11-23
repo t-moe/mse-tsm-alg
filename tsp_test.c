@@ -50,9 +50,11 @@ int main(void)
   printf("Data file name : \n");
   //dummy_int = scanf("%s",filename);
   // data_file = fopen(filename,"r");
-  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
-  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
+  data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/bier127.tsp" , "r");
+  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/berlin52.tsp", "r");
   //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/pr2392.tsp", "r");
+  //data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/pr1002.tsp", "r");
+  // data_file = fopen("/home/timo/study/tsmalg/Exercises2_CODE/TSP_Instances/tsp225.tsp", "r");
 
   /* Reading the data file. Hoping in right format!! ALMOST NO CHECKS!!       */
   dummy_int = fscanf(data_file, "%[^\n]\n", trash);
@@ -110,7 +112,7 @@ int main(void)
     printf("%d\t%e\t%e (number of cities, time, length) of greedy insertion. \n", n, seconds(cpu), length);
     draw(n, x, y, solution, "greedy.ps");
 
-    cpu = clock();
+    /*cpu = clock();
     length = tsp_nearest_neighbor(n, d, solution);
     printf("%d\t%e\t%e (number of cities, time, length) of nearest neighbor. \n", n, seconds(cpu), length);
     draw(n, x, y, solution, "nneighbor.ps");
@@ -118,7 +120,7 @@ int main(void)
     cpu = clock();
     length = tsp_local_greedy(n, d, solution);
     printf("%d\t%e\t%e (number of cities, time, length) of local greedy insertion. \n", n, seconds(cpu), length);
-    draw(n, x, y, solution, "localgreedy.ps");
+    draw(n, x, y, solution, "localgreedy.ps");*/
 
     /*cpu = clock();
     length = tsp_pilot(n, d, solution);

@@ -73,7 +73,7 @@ DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  i
 }
 
 void DecisionMaker::recordNewBest(double best) {
-    std::cout << "New global best " << best << " at it " << cnt <<  " temp " << temp << std::endl;
+    std::cout << "New global best " << best << " at it " << cnt <<  " temp " << temp << " temp increases before " << tempIncreaseWithoutImprovement << std::endl;
     tempIncreaseWithoutImprovement = 0;
 }
 

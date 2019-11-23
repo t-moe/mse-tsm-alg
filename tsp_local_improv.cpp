@@ -24,7 +24,7 @@ double tsp_local_improv(unsigned n,                   /* Number of cities */
     }
 
     TSPOneOptNeighborhoodSearcher ns;
-    DecisionMaker dm(3600000,60 * n, 666666, 0.9, 0.3, 0.9, 0 );
+    DecisionMaker dm(36,100 * n, 20, 0.9, 0.9, 0.99, 2 );
 
     ns.setTSP(sol, d);
     ns.improveSolution(dm);
