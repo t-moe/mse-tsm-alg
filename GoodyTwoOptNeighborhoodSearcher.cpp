@@ -4,26 +4,26 @@
 
 #include <cstdlib>
 #include <iostream>
+#include "GoodyTwoOptNeighborhoodSearcher.h"
 #include "NeighborhoodSearcher.h"
 
 void GoodyTwoOptNeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
     this->goodies = &goodyRef;
+    calculateTotals();
+}
+
+void GoodyTwoOptNeighborhoodSearcher::calculateTotals() {
     totalWeight = 0;
     totalValue = 0;
-    //firstElementOutside = goodies->begin();
-    //elementsInside = 0;
-    for(auto it= goodies->begin(); it!= goodies->end(); it++) {
+    for(auto it= goodies->begin(); it != goodies->end(); it++) {
         if(totalWeight + it->weight > maxWeight) {
-            //firstElementOutside = it;
             break;
         } else {
-            //elementsInside++;
             totalWeight += it->weight;
             totalValue += it->value;
         }
     }
 }
-
 
 
 bool GoodyTwoOptNeighborhoodSearcher::cont() {
@@ -56,26 +56,14 @@ bool GoodyTwoOptNeighborhoodSearcher::cont() {
             }
         }
 
-
-
         valueChange = newTotalValue - totalValue;
         weightChange = newTotalWeight - totalWeight;
 
-
-    } while((totalWeight + weightChange > maxWeight) || (valueChange==0 && weightChange==0));
-
-
-    //if(valueChange > 0) {
-        improvements++;
-        costsum += valueChange;
-   // }
+    } while(valueChange==0 && weightChange==0);
 
     return true;
 }
 
-double GoodyTwoOptNeighborhoodSearcher::getCostChange() {
-    return valueChange;
-}
 
 bool GoodyTwoOptNeighborhoodSearcher::acceptChange() {
     if(valueChange == 0 && weightChange==0) {
@@ -88,6 +76,8 @@ bool GoodyTwoOptNeighborhoodSearcher::acceptChange() {
 
     weightChange = 0;
     valueChange = 0;
+
+    return true;
 
 }
 
@@ -102,7 +92,28 @@ void GoodyTwoOptNeighborhoodSearcher::setMaxweight(unsigned int m) {
     maxWeight = m;
 }
 
-double GoodyTwoOptNeighborhoodSearcher::avgImprovement() {
-    return (double) costsum / improvements;
+
+double GoodyTwoOptNeighborhoodSearcher::getCostChange() {
+    return valueChange;
 }
 
+std::vector<Goody> GoodyTwoOptNeighborhoodSearcher::getBestSolution() {
+    return bestsol;
+}
+
+bool GoodyTwoOptNeighborhoodSearcher::saveAsBestSolution() {
+    bestsol = *goodies;
+    return true;
+}
+
+bool GoodyTwoOptNeighborhoodSearcher::isBetterCost(double c1, double c2) {
+    return c1 > c2;
+}
+
+bool GoodyTwoOptNeighborhoodSearcher::restoreBestSolution() {
+    *goodies = bestsol;
+    calculateTotals();
+    valueChange = 0;
+    weightChange = 0;
+    return true;
+}

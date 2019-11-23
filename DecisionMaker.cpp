@@ -7,6 +7,9 @@
 #include <iostream>
 
 bool DecisionMaker::cont() {
+    //return cnt++ < 10000;
+    shouldRestore = false;
+
     if(cnt % tempDecreaseInterval == 0) {
         temp = learningRate * temp;
         //std::cout << "Decrease temp to " << temp << " after it " << cnt << std::endl;
@@ -18,11 +21,13 @@ bool DecisionMaker::cont() {
             temp = lastReheatTemp*reheatRate;
             lastReheatTemp= temp;
             reheatcnt++;
+            //shouldRestore = true; //this is restart rather than reheat....
             std::cout << "Reheat temp to " << temp << " after it " << cnt << std::endl;
         }
     }
     cnt++;
-    //return cnt++ < 100000;
+
+    //return cnt++ < 1000;
     //return tempIncreaseWithoutImprovement < 10;
     return temp > 1;
 }
@@ -34,8 +39,10 @@ bool DecisionMaker::shouldTake(int cost_change) {
 
     //std::cout << "temp " << temp << " cost " << cost_change << " prob " << p << std::endl;
 
-    //return cost_change > 0;
+    //return cost_change < 0;
+    //return true;
     return p > r;
+    return cost_change > 0;
 }
 
 DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  int reheatInterval,
@@ -47,11 +54,14 @@ DecisionMaker::DecisionMaker(double avgImprovement, int tempDecreaseInterval,  i
     this->reheatRate = reheatRate;
     this->reheatInterval = reheatInterval;
     this->tempDecreaseInterval = tempDecreaseInterval;
-    srand(time(NULL));
 
 }
 
 void DecisionMaker::recordNewBest(unsigned best) {
     std::cout << "New global best " << best << " at it " << cnt <<  " temp " << temp << std::endl;
     tempIncreaseWithoutImprovement = 0;
+}
+
+bool DecisionMaker::shouldRestoreBest() {
+    return shouldRestore;
 }

@@ -18,6 +18,7 @@ public:
      bool cont();
      bool shouldTake(int cost_change);
      void recordNewBest(unsigned best);
+     bool shouldRestoreBest();
 
     int tempDecreaseInterval;
     double reheatRate;
@@ -30,6 +31,7 @@ private:
     int reheatcnt=0;
     double temp;
     double lastReheatTemp;
+    bool shouldRestore = false;
 
 };
 

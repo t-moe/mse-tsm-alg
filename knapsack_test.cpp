@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <numeric>
 #include <iostream>
-#include "NeighborhoodSearcher.h"
+#include "GoodyTwoOptNeighborhoodSearcher.h"
 #include "DecisionMaker.h"
 #include "Goody.h"
 
@@ -65,56 +65,27 @@ unsigned getValue(const std::vector<Goody>& goodies, unsigned maxWeight) {
 }
 
 
-std::vector<Goody> greedy(std::vector<Goody>& goodies, unsigned maxWeight, std::function<std::vector<Goody>::const_iterator(const std::vector<Goody>& goodies)> goodiePicker)
+std::vector<Goody> greedy(std::vector<Goody>& goodies, std::function<std::vector<Goody>::const_iterator(const std::vector<Goody>& goodies)> goodiePicker)
 {
     std::vector<Goody> sol;
-    while(goodies.size()!=0 /*&& getWeight(sol) < maxWeight*/) {
+    while(goodies.size()!=0) {
         auto goodyIt = goodiePicker(goodies);
         sol.push_back(*goodyIt);
         goodies.erase(goodyIt);
     }
-    //if (getWeight(sol) > maxWeight) {
-     //   sol.erase(std::prev(sol.end(),1));
-    //}
+
     return sol;
 }
-
-
-std::vector<Goody>  improveSolution(std::vector<Goody> solution, unsigned int maxWeight, GoodyTwoOptNeighborhoodSearcher& neighborhoodSearcher, DecisionMaker& decisionMaker) {
-    neighborhoodSearcher.setMaxweight(maxWeight);
-    neighborhoodSearcher.setGoodies(solution);
-
-    double bestcost = 0;
-    double cost = 0;
-    std::vector<Goody> bestsol;
-    while(neighborhoodSearcher.cont() && decisionMaker.cont()) {
-        double costChange = neighborhoodSearcher.getCostChange();
-        if(decisionMaker.shouldTake(costChange)) {
-            neighborhoodSearcher.acceptChange();
-            cost += costChange;
-            if(cost > bestcost) {
-                decisionMaker.recordNewBest(cost);
-                bestcost = cost;
-                bestsol = solution;
-            }
-        } else {
-            neighborhoodSearcher.ignoreChange();
-        }
-    }
-    std::cout << "Cost improved " << bestcost<< std::endl;
-    return bestsol;
-}
-
-
 
 
 
 
 int main() {
+    srand(time(NULL));
 
     auto pickMostValueable = [](const std::vector<Goody>& goodies) {
         return std::max_element(goodies.begin(), goodies.end(),
-                [](const Goody& a, const Goody& b) { return a.weight < b.weight; });
+                [](const Goody& a, const Goody& b) { return a.value < b.value; });
     };
 
     auto pickBestRate = [](const std::vector<Goody>& goodies) {
@@ -127,28 +98,25 @@ int main() {
     auto remainingGoods = goodyDataset.second;
 
     //Weight 6172204/6404180 Value 12674883
-    //auto sol = greedy(remainingGoods, maxWeight, pickMostValueable);
+    //auto sol = greedy(remainingGoods, pickMostValueable);
 
     //Weight 6289089/6404180 Value 13346220
-    auto sol = greedy(remainingGoods, maxWeight, pickBestRate);
+    auto sol = greedy(remainingGoods, pickBestRate);
     //std::vector<Goody> sol = remainingGoods;
     unsigned weight = getWeight(sol, maxWeight);
     unsigned value = getValue(sol, maxWeight);
-    std::cout << "Weight " << weight << "/" << maxWeight << " Value " << value << std::endl;
-    std::cout << "Goodies in sack:" << std::endl;
-
-    /*for(auto g: sol) {
-        std::cout << "Value: " << g.value << " Weight:" << g.weight << " Value/weight: "<< static_cast<double>(g.value)/g.weight <<std::endl;
-    }*/
+    std::cout << "Greedy Solution: Weight " << weight << "/" << maxWeight << " Value " << value << std::endl;
 
 
     GoodyTwoOptNeighborhoodSearcher ns;
-    DecisionMaker dm(-715055,60 * 100, 7, 0.5, 0.4, 0.9 );
+    DecisionMaker dm(-373868,60 * 100, 6, 0.5, 0.3, 0.9 );
 
 
-    //sol.insert(sol.end(), remainingGoods.begin(), remainingGoods.end());
-    auto improvedSolution= improveSolution(sol, maxWeight, ns, dm );
-    //std::cout << "avg improvement " << ns.avgImprovement() << std::endl;
+    ns.setMaxweight(maxWeight);
+    ns.setGoodies(sol);
+    ns.improveSolution(dm);
+    auto improvedSolution= ns.getBestSolution();
+    std::cout << "avg accepted improvement " << ns.avgImprovement() << std::endl;
     //avg improvement 79829 (positiv only)
     //avg improvement -715055 (positive + negative)
 
@@ -157,16 +125,7 @@ int main() {
 
     weight = getWeight(improvedSolution, maxWeight);
     value = getValue(improvedSolution, maxWeight);
-    std::cout << "Weight " << weight << "/" << maxWeight << " Value " << value << std::endl;
-    //std::cout << "Goodies in sack:" << std::endl;
-
-    /*for(auto g: sol) {
-        std::cout << "Value: " << g.value << " Weight:" << g.weight << " Value/weight: "<< static_cast<double>(g.value)/g.weight <<std::endl;
-    }*/
-
-
-
-
+    std::cout << "Optimized Solution: Weight " << weight << "/" << maxWeight << " Value " << value << std::endl;
 
 }
 

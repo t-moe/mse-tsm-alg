@@ -18,6 +18,6 @@ add_executable(demo
         tsp_greedy_insertion.h
         tsp_test.c
         tsp_utilities.c
-        tsp_utilities.h tsp_random_samp.cpp tsp_random_samp.h tsp_nearest_neighbor.cpp tsp_nearest_neighbor.h tsp_pilot.cpp tsp_pilot.h tsp_local_greedy.cpp tsp_local_greedy.h knapsack_test.cpp NeighborhoodSearcher.cpp NeighborhoodSearcher.h DecisionMaker.cpp DecisionMaker.h)
+        tsp_utilities.h tsp_random_samp.cpp tsp_random_samp.h tsp_nearest_neighbor.cpp tsp_nearest_neighbor.h tsp_pilot.cpp tsp_pilot.h tsp_local_greedy.cpp tsp_local_greedy.h knapsack_test.cpp GoodyTwoOptNeighborhoodSearcher.cpp GoodyTwoOptNeighborhoodSearcher.h DecisionMaker.cpp DecisionMaker.h  NeighborhoodSearcher.h)
 
 target_link_libraries(demo -lm)
