@@ -10,14 +10,14 @@ void NeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
     this->goodies = &goodyRef;
     totalWeight = 0;
     totalValue = 0;
-    firstElementOutside = goodies->begin();
-    elementsInside = 0;
+    //firstElementOutside = goodies->begin();
+    //elementsInside = 0;
     for(auto it= goodies->begin(); it!= goodies->end(); it++) {
         if(totalWeight + it->weight > maxWeight) {
-            firstElementOutside = it;
+            //firstElementOutside = it;
             break;
         } else {
-            elementsInside++;
+            //elementsInside++;
             totalWeight += it->weight;
             totalValue += it->value;
         }
@@ -29,14 +29,40 @@ void NeighborhoodSearcher::setGoodies(std::vector<Goody> &goodyRef) {
 bool NeighborhoodSearcher::cont() {
 
     do {
+        //pick an element thats from the whole list
         it1 = goodies->begin();
-        std::advance(it1, rand() % elementsInside);
-        it2 = firstElementOutside;
-        std::advance(it2, rand() % (goodies->size()-elementsInside));
+        std::advance(it1, rand() % goodies->size());
 
-        valueChange = it2->value - it1->value;
-        weightChange = it2->weight - it1->weight;
-    } while(totalWeight + weightChange > maxWeight);
+        //pick a second element from the whole list
+        it2 = goodies->begin();
+        std::advance(it2,  rand() % goodies->size());
+
+        //calculate new items/weight/value inside
+        unsigned  newTotalWeight = 0;
+        unsigned  newTotalValue = 0;
+        for(auto it= goodies->begin(); it!= goodies->end(); it++) {
+            auto it2lookat = it;
+            if(it==it1) {
+                it2lookat = it2;
+            } else if (it == it2) {
+                it2lookat = it1;
+            }
+
+            if(newTotalWeight + it2lookat->weight > maxWeight) {
+                break;
+            } else {
+                newTotalWeight += it2lookat->weight;
+                newTotalValue += it2lookat->value;
+            }
+        }
+
+
+
+        valueChange = newTotalValue - totalValue;
+        weightChange = newTotalWeight - totalWeight;
+
+
+    } while((totalWeight + weightChange > maxWeight) || (valueChange==0 && weightChange==0));
 
 
     //if(valueChange > 0) {

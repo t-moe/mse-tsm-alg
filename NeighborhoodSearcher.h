@@ -20,11 +20,14 @@ class NeighborhoodSearcher {
 
 
     std::vector<Goody>* goodies;
-    std::vector<Goody>::iterator firstElementOutside;
+    //std::vector<Goody>::iterator firstElementOutside;
     unsigned int totalWeight;
     unsigned int totalValue;
-    unsigned int elementsInside;
+    //unsigned int elementsInside;
     unsigned int maxWeight;
+
+
+
 
     std::vector<Goody>::iterator it1;
     std::vector<Goody>::iterator it2;

@@ -14,7 +14,8 @@ bool DecisionMaker::cont() {
     }
     cnt++;
     //return cnt++ < 100000;
-    return tempIncreaseWithoutImprovement < 30;
+    //return tempIncreaseWithoutImprovement < 10;
+    return temp > 100;
 }
 
 bool DecisionMaker::shouldTake(int cost_change) {
